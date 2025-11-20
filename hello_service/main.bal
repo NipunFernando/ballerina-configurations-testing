@@ -181,7 +181,7 @@ service / on new http:Listener(8091) {
         // 2. Union Types
         io:println("--- 2. UNION TYPES ---");
         io:println("flexibleConfig.flexibleValue (string|int): ", flexibleConfig.flexibleValue);
-        io:println("flexibleConfig.nullableString (string|null): ", flexibleConfig.nullableString);
+        io:println("flexibleConfig.nullableString (string|null): ", flexibleConfig?.nullableString);
         io:println("flexibleConfig.numericValue (int|float): ", flexibleConfig.numericValue);
         io:println("flexibleConfig.mixedValue (boolean|string): ", flexibleConfig.mixedValue);
         io:println("unionType (string|int): ", unionType);
@@ -267,7 +267,7 @@ service / on new http:Listener(8091) {
                 },
                 "flexibleConfig": {
                     "flexibleValue": flexibleConfig.flexibleValue.toString(),
-                    "nullableString": flexibleConfig.nullableString,
+                    "nullableString": flexibleConfig?.nullableString,
                     "numericValue": flexibleConfig.numericValue.toString(),
                     "mixedValue": flexibleConfig.mixedValue.toString()
                 },
