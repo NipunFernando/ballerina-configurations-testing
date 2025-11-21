@@ -84,7 +84,7 @@ type MapConfig record {
     map<int> intMap;
     map<float> floatMap;
     map<boolean> booleanMap;
-    map<DatabaseConfig> objectMap;
+    map<DatabaseConfig> objectMap = {};
 };
 
 // ============================================
