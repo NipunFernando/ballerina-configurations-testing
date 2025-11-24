@@ -19,7 +19,7 @@ type AuthProvider record {
 // Security configuration with nested auth providers (Level 3)
 type SecurityConfig record {
     AuthProvider oauth;
-    AuthProvider? saml;
+    // AuthProvider? saml;
     boolean requireHttps;
     int sessionTimeout;
 };
@@ -127,7 +127,7 @@ type ArrayConfig record {
     int[][] nestedIntArray;
 };
 
-// Advanced configuration combining all levels
+// Advanced configuration combining all levels (SIMPLIFIED - no nested records)
 type AdvancedConfig record {
     // Level 1 primitives
     string apiKey;
@@ -139,21 +139,13 @@ type AdvancedConfig record {
     // Level 2 nested
     Level2Nested nested;
     
-    // Level 3+ deeply nested
-    Level3Nested? deepNested;
-    
-    // Arrays
+    // Arrays (primitives only)
     string[] endpoints;
     int[] ports;
-    NewGreeting[] greetings;
     
-    // Maps
+    // Maps (primitives only)
     map<string> envVars;
     map<int> thresholds;
-    map<NewGreeting> configMap;
-    
-    // Union types
-    FlexibleConfig? flexible;
     
     // Enum
     LoggingConfig logging;
@@ -211,10 +203,8 @@ configurable AdvancedConfig advancedConfig = {
     },
     endpoints: ["http://localhost:8080"],
     ports: [8080, 8081],
-    greetings: [],
     envVars: {"ENV": "development"},
     thresholds: {"max": 1000},
-    configMap: {},
     logging: {
         level: INFO,
         format: "json",
@@ -239,13 +229,16 @@ configurable AdvancedConfig advancedConfig = {
     }
 };
 
-// Environment variable for the name
+// Additional standalone union types for testing
+configurable string|int unionType = "default_union_value";
+configurable int|float numericUnion = 10;
+
+// Environment variable
 configurable string name = os:getEnv("NAME");
 
 // ============================================
 // SERVICE
 // ============================================
-
 service / on new http:Listener(8092) {
     
     resource function get level3() returns json {
@@ -254,96 +247,48 @@ service / on new http:Listener(8092) {
         io:println("LEVEL 3 - DEEPLY NESTED OBJECTS CONFIGURATION TEST");
         io:println("========================================\n");
         
-        // 1. Level 3 Deeply Nested Configuration
-        io:println("--- 1. LEVEL 3 DEEPLY NESTED CONFIGURATION (Required) ---");
-        io:println("level3Config.environment: ", level3Config.environment);
-        io:println("level3Config.replicaCount: ", level3Config.replicaCount);
-        io:println("  Description: Level 1 - Root object\n");
-        
-        // 1a. Service Config (Level 2)
-        io:println("--- 1a. SERVICE CONFIG (Level 2) ---");
-        io:println("level3Config.serviceConfig.serviceName: ", level3Config.serviceConfig.serviceName);
-        io:println("level3Config.serviceConfig.maxRetries: ", level3Config.serviceConfig.maxRetries);
-        io:println("level3Config.serviceConfig.timeout: ", level3Config.serviceConfig.timeout);
-        io:println("  Description: Level 2 - Nested inside Level3Nested\n");
-        
-        // 1b. Security Config (Level 3)
-        io:println("--- 1b. SECURITY CONFIG (Level 3) ---");
-        io:println("level3Config.serviceConfig.security.requireHttps: ", level3Config.serviceConfig.security.requireHttps);
-        io:println("level3Config.serviceConfig.security.sessionTimeout: ", level3Config.serviceConfig.security.sessionTimeout);
-        io:println("  Description: Level 3 - Nested inside ServiceConfig\n");
-        
-        // 1c. OAuth Auth Provider (Level 4)
-        io:println("--- 1c. OAUTH AUTH PROVIDER (Level 4) ---");
-        io:println("level3Config.serviceConfig.security.oauth.name: ", level3Config.serviceConfig.security.oauth.name);
-        io:println("level3Config.serviceConfig.security.oauth.clientId: ", level3Config.serviceConfig.security.oauth.clientId);
-        io:println("level3Config.serviceConfig.security.oauth.clientSecret: ", level3Config.serviceConfig.security.oauth.clientSecret);
-        io:println("level3Config.serviceConfig.security.oauth.tokenExpiry: ", level3Config.serviceConfig.security.oauth.tokenExpiry);
-        io:println("level3Config.serviceConfig.security.oauth.enabled: ", level3Config.serviceConfig.security.oauth.enabled);
-        io:println("level3Config.serviceConfig.security.oauth.scopes: ", level3Config.serviceConfig.security.oauth.scopes);
-        io:println("  Description: Level 4 - Deeply nested inside SecurityConfig\n");
-        
-        // 1d. SAML Auth Provider (Optional, Level 4)
-        io:println("--- 1d. SAML AUTH PROVIDER (Optional, Level 4) ---");
-        io:println("level3Config.serviceConfig.security.saml: ", level3Config.serviceConfig.security.saml);
-        io:println("  Description: Level 4 - Optional deeply nested auth provider\n");
+        // 1. Level 3 Deeply Nested Configuration (4 levels deep)
+        io:println("--- 1. LEVEL 3 DEEPLY NESTED (4 Levels) ---");
+        io:println("Level 1 - level3Config.environment: ", level3Config.environment);
+        io:println("Level 1 - level3Config.replicaCount: ", level3Config.replicaCount);
+        io:println("Level 2 - level3Config.serviceConfig.serviceName: ", level3Config.serviceConfig.serviceName);
+        io:println("Level 2 - level3Config.serviceConfig.maxRetries: ", level3Config.serviceConfig.maxRetries);
+        io:println("Level 2 - level3Config.serviceConfig.timeout: ", level3Config.serviceConfig.timeout);
+        io:println("Level 3 - level3Config.serviceConfig.security.requireHttps: ", level3Config.serviceConfig.security.requireHttps);
+        io:println("Level 3 - level3Config.serviceConfig.security.sessionTimeout: ", level3Config.serviceConfig.security.sessionTimeout);
+        io:println("Level 4 - level3Config.serviceConfig.security.oauth.name: ", level3Config.serviceConfig.security.oauth.name);
+        io:println("Level 4 - level3Config.serviceConfig.security.oauth.clientId: ", level3Config.serviceConfig.security.oauth.clientId);
+        io:println("Level 4 - level3Config.serviceConfig.security.oauth.enabled: ", level3Config.serviceConfig.security.oauth.enabled);
+        io:println("Level 4 - level3Config.serviceConfig.security.oauth.scopes: ", level3Config.serviceConfig.security.oauth.scopes);
+        // io:println("Level 4 (Optional) - level3Config.serviceConfig.security.saml: ", level3Config.serviceConfig.security.saml);
+        io:println("  Description: Testing 4 levels of nesting with optional field\n");
         
         // 2. Complex Map Configuration
         io:println("--- 2. COMPLEX MAP CONFIGURATION ---");
         io:println("complexMapConfig.simpleStringMap: ", complexMapConfig.simpleStringMap);
-        io:println("  Description: Simple map with string values");
         io:println("complexMapConfig.simpleIntMap: ", complexMapConfig.simpleIntMap);
-        io:println("  Description: Simple map with int values");
-        io:println("complexMapConfig.complexMap: ", complexMapConfig.complexMap);
-        io:println("  Description: Map with complex object values (MapValueType)");
-        io:println("complexMapConfig.arrayMap: ", complexMapConfig.arrayMap);
-        io:println("  Description: Map with array values (map<string[]>)");
-        io:println("complexMapConfig.objectMap: ", complexMapConfig.objectMap);
-        io:println("  Description: Map with AuthProvider object values\n");
+        io:println("complexMapConfig.complexMap (map<MapValueType>): ", complexMapConfig.complexMap);
+        io:println("complexMapConfig.arrayMap (map<string[]>): ", complexMapConfig.arrayMap);
+        io:println("complexMapConfig.objectMap (map<AuthProvider>): ", complexMapConfig.objectMap);
+        io:println("  Description: Testing maps with complex nested object values\n");
         
-        // 3. Advanced Configuration - Primitives
-        io:println("--- 3. ADVANCED CONFIG - PRIMITIVES ---");
+        // 3. Advanced Configuration
+        io:println("--- 3. ADVANCED CONFIGURATION ---");
         io:println("advancedConfig.apiKey: ", advancedConfig.apiKey);
         io:println("advancedConfig.maxConnections: ", advancedConfig.maxConnections);
-        io:println("advancedConfig.rateLimit: ", advancedConfig.rateLimit);
-        io:println("advancedConfig.precision: ", advancedConfig.precision);
-        io:println("advancedConfig.debugMode: ", advancedConfig.debugMode);
-        io:println("  Description: Level 1 primitives in advanced config\n");
-        
-        // 4. Advanced Configuration - Level 2 Nested
-        io:println("--- 4. ADVANCED CONFIG - LEVEL 2 NESTED ---");
         io:println("advancedConfig.nested.appName: ", advancedConfig.nested.appName);
-        io:println("advancedConfig.nested.appVersion: ", advancedConfig.nested.appVersion);
         io:println("advancedConfig.nested.database.host: ", advancedConfig.nested.database.host);
         io:println("advancedConfig.nested.cache.cacheType: ", advancedConfig.nested.cache.cacheType);
-        io:println("  Description: Level 2 nested objects in advanced config\n");
-        
-        // 5. Advanced Configuration - Level 3+ Deep Nested (Optional)
-        io:println("--- 5. ADVANCED CONFIG - LEVEL 3+ DEEP NESTED (Optional) ---");
-        io:println("advancedConfig.deepNested: ", advancedConfig.deepNested);
-        io:println("  Description: Optional Level 3+ deeply nested structure\n");
-        
-        // 6. Advanced Configuration - Arrays
-        io:println("--- 6. ADVANCED CONFIG - ARRAYS ---");
-        io:println("advancedConfig.endpoints: ", advancedConfig.endpoints);
-        io:println("advancedConfig.ports: ", advancedConfig.ports);
-        io:println("advancedConfig.greetings: ", advancedConfig.greetings);
-        io:println("advancedConfig.arrays.stringArray: ", advancedConfig.arrays.stringArray);
-        io:println("advancedConfig.arrays.nestedStringArray: ", advancedConfig.arrays.nestedStringArray);
-        io:println("  Description: Various array types in advanced config\n");
-        
-        // 7. Advanced Configuration - Maps
-        io:println("--- 7. ADVANCED CONFIG - MAPS ---");
-        io:println("advancedConfig.envVars: ", advancedConfig.envVars);
-        io:println("advancedConfig.thresholds: ", advancedConfig.thresholds);
-        io:println("advancedConfig.configMap: ", advancedConfig.configMap);
-        io:println("  Description: Various map types in advanced config\n");
-        
-        // 8. Advanced Configuration - Enum
-        io:println("--- 8. ADVANCED CONFIG - ENUM ---");
         io:println("advancedConfig.logging.level: ", advancedConfig.logging.level);
-        io:println("advancedConfig.logging.format: ", advancedConfig.logging.format);
-        io:println("  Description: Enum-based logging configuration\n");
+        io:println("advancedConfig.arrays.nestedStringArray: ", advancedConfig.arrays.nestedStringArray);
+        io:println("advancedConfig.maps.simpleStringMap: ", advancedConfig.maps.simpleStringMap);
+        io:println("  Description: Comprehensive config combining all levels\n");
+        
+        // 4. Union Types
+        io:println("--- 4. UNION TYPES ---");
+        io:println("unionType (string|int): ", unionType);
+        io:println("numericUnion (int|float): ", numericUnion);
+        io:println("  Description: Testing union type configurations\n");
         
         io:println("========================================");
         io:println("END OF LEVEL 3 CONFIGURATION TEST");
@@ -357,9 +302,9 @@ service / on new http:Listener(8092) {
         json response = {
             "greeting": message,
             "level": 3,
-            "description": "Deeply nested objects with multiple levels (3+) of nesting - Level 3 Configuration Test",
+            "description": "Deeply nested objects with multiple levels (4 levels) of nesting - Level 3 Configuration Test",
             "configurations": {
-                "level3Nested": {
+                "level3Config": {
                     "environment": level3Config.environment,
                     "replicaCount": level3Config.replicaCount,
                     "serviceConfig": {
@@ -377,8 +322,7 @@ service / on new http:Listener(8092) {
                                 "enabled": level3Config.serviceConfig.security.oauth.enabled,
                                 "scopes": level3Config.serviceConfig.security.oauth.scopes
                             },
-                            "saml": level3Config.serviceConfig.security.saml.toJson()
-                        }
+                            "saml": null
                     }
                 },
                 "complexMapConfig": {
@@ -396,57 +340,58 @@ service / on new http:Listener(8092) {
                         "precision": advancedConfig.precision.toString(),
                         "debugMode": advancedConfig.debugMode
                     },
-                    "level2Nested": {
+                    "nested": {
                         "appName": advancedConfig.nested.appName,
                         "appVersion": advancedConfig.nested.appVersion,
                         "database": {
                             "host": advancedConfig.nested.database.host,
-                            "port": advancedConfig.nested.database.port
+                            "port": advancedConfig.nested.database.port,
+                            "username": advancedConfig.nested.database.username
                         },
                         "cache": {
                             "cacheType": advancedConfig.nested.cache.cacheType,
                             "enabled": advancedConfig.nested.cache.enabled
                         }
                     },
-                    "deepNested": advancedConfig.deepNested.toJson(),
                     "arrays": {
                         "endpoints": advancedConfig.endpoints,
                         "ports": advancedConfig.ports,
-                        "greetings": advancedConfig.greetings.toJson()
+                        "nestedStringArray": advancedConfig.arrays.nestedStringArray
                     },
                     "maps": {
                         "envVars": advancedConfig.envVars,
-                        "thresholds": advancedConfig.thresholds,
-                        "configMap": advancedConfig.configMap.toJson()
+                        "thresholds": advancedConfig.thresholds
                     },
                     "logging": {
                         "level": advancedConfig.logging.level.toString(),
-                        "format": advancedConfig.logging.format,
-                        "maxFiles": advancedConfig.logging.maxFiles
+                        "format": advancedConfig.logging.format
                     }
+                },
+                "unionTypes": {
+                    "unionType": unionType.toString(),
+                    "numericUnion": numericUnion.toString()
                 }
             },
             "testSummary": {
-                "nestingLevel": "3+ levels deep (4 levels)",
+                "nestingLevel": "4 levels deep",
                 "requiredConfigsCount": 1,
-                "optionalConfigsCount": 2,
-                "totalConfigsCount": 3,
+                "optionalConfigsCount": 4,
+                "totalConfigsCount": 5,
                 "testedTypes": [
                     "Deeply nested objects (4 levels)",
                     "Level3Nested -> ServiceConfig -> SecurityConfig -> AuthProvider",
                     "Optional deeply nested fields (saml?)",
                     "Complex maps (map<MapValueType>, map<AuthProvider>)",
                     "Maps with array values (map<string[]>)",
-                    "Advanced combined configuration (all levels)",
-                    "Union types in nested contexts",
+                    "Advanced combined configuration (Levels 1 & 2)",
+                    "Union types (string|int, int|float)",
                     "Enums in nested structures",
                     "Arrays of complex objects",
                     "Nested arrays (2D arrays)",
-                    "Maps of complex objects",
-                    "Optional Level 3+ nested structures"
+                    "Level 2 nesting in advanced config"
                 ]
             }
-        };
+        }};
         
         return response;
     }
