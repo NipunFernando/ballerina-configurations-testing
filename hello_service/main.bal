@@ -169,7 +169,7 @@ configurable ComplexMapConfig complexMapConfig = {
     simpleStringMap: {"default": "value"},
     simpleIntMap: {"default": 100},
     complexMap: {},
-    arrayMap: {},
+    arrayMap: {"default": ["value"]},
     objectMap: {}
 };
 
@@ -224,7 +224,7 @@ configurable AdvancedConfig advancedConfig = {
         simpleStringMap: {"default": "value"},
         simpleIntMap: {"default": 100},
         complexMap: {},
-        arrayMap: {},
+        arrayMap: {"default": ["value"]},
         objectMap: {}
     }
 };
