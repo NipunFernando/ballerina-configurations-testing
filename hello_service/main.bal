@@ -123,7 +123,8 @@ type ArrayConfig record {
     boolean[] booleanArray;
     // COMMENTED OUT - causing deployment errors in Choreo
     // NewGreeting[] objectArray;
-    map<string>[] mapArray;
+    // COMMENTED OUT - causing deployment errors in Choreo
+    // map<string>[] mapArray;
     string[][] nestedStringArray;
     int[][] nestedIntArray;
 };
@@ -222,7 +223,8 @@ configurable AdvancedConfig advancedConfig = {
         booleanArray: [true, false],
         // COMMENTED OUT - causing deployment errors in Choreo
         // objectArray: [],
-        mapArray: [],
+        // COMMENTED OUT - causing deployment errors in Choreo
+        // mapArray: [],
         nestedStringArray: [["a", "b"]],
         nestedIntArray: [[1, 2]]
     }
