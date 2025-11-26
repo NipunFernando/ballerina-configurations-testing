@@ -145,7 +145,8 @@ type AdvancedConfig record {
     
     // Maps (primitives only)
     map<string> envVars;
-    map<int> thresholds;
+    // COMMENTED OUT - causing deployment errors in Choreo
+    // map<int> thresholds;
     
     // Enum
     LoggingConfig logging;
@@ -154,7 +155,8 @@ type AdvancedConfig record {
     ArrayConfig arrays;
     
     // Complex maps
-    ComplexMapConfig maps;
+    // COMMENTED OUT - causing deployment errors in Choreo
+    // ComplexMapConfig maps;
 };
 
 // ============================================
@@ -165,13 +167,14 @@ type AdvancedConfig record {
 configurable Level3Nested level3Config = ?;
 
 // Complex map configuration - with defaults
-configurable ComplexMapConfig complexMapConfig = {
-    simpleStringMap: {"default": "value"},
-    simpleIntMap: {"default": 100},
-    complexMap: {},
-    arrayMap: {"default": ["value"]},
-    objectMap: {}
-};
+// COMMENTED OUT - causing deployment errors in Choreo
+// configurable ComplexMapConfig complexMapConfig = {
+//     simpleStringMap: {"default": "value"},
+//     simpleIntMap: {"default": 100},
+//     complexMap: {},
+//     arrayMap: {"default": ["value"]},
+//     objectMap: {}
+// };
 
 // Advanced configuration with all levels - with defaults
 configurable AdvancedConfig advancedConfig = {
@@ -204,7 +207,8 @@ configurable AdvancedConfig advancedConfig = {
     endpoints: ["http://localhost:8080"],
     ports: [8080, 8081],
     envVars: {"ENV": "development"},
-    thresholds: {"max": 1000},
+    // COMMENTED OUT - causing deployment errors in Choreo
+    // thresholds: {"max": 1000},
     logging: {
         level: INFO,
         format: "json",
@@ -219,14 +223,15 @@ configurable AdvancedConfig advancedConfig = {
         mapArray: [],
         nestedStringArray: [["a", "b"]],
         nestedIntArray: [[1, 2]]
-    },
-    maps: {
-        simpleStringMap: {"default": "value"},
-        simpleIntMap: {"default": 100},
-        complexMap: {},
-        arrayMap: {"default": ["value"]},
-        objectMap: {}
     }
+    // COMMENTED OUT - causing deployment errors in Choreo
+    // maps: {
+    //     simpleStringMap: {"default": "value"},
+    //     simpleIntMap: {"default": 100},
+    //     complexMap: {},
+    //     arrayMap: {"default": ["value"]},
+    //     objectMap: {}
+    // }
 };
 
 // Additional standalone union types for testing
@@ -264,13 +269,14 @@ service / on new http:Listener(8092) {
         io:println("  Description: Testing 4 levels of nesting with optional field\n");
         
         // 2. Complex Map Configuration
-        io:println("--- 2. COMPLEX MAP CONFIGURATION ---");
-        io:println("complexMapConfig.simpleStringMap: ", complexMapConfig.simpleStringMap);
-        io:println("complexMapConfig.simpleIntMap: ", complexMapConfig.simpleIntMap);
-        io:println("complexMapConfig.complexMap (map<MapValueType>): ", complexMapConfig.complexMap);
-        io:println("complexMapConfig.arrayMap (map<string[]>): ", complexMapConfig.arrayMap);
-        io:println("complexMapConfig.objectMap (map<AuthProvider>): ", complexMapConfig.objectMap);
-        io:println("  Description: Testing maps with complex nested object values\n");
+        // COMMENTED OUT - causing deployment errors in Choreo
+        // io:println("--- 2. COMPLEX MAP CONFIGURATION ---");
+        // io:println("complexMapConfig.simpleStringMap: ", complexMapConfig.simpleStringMap);
+        // io:println("complexMapConfig.simpleIntMap: ", complexMapConfig.simpleIntMap);
+        // io:println("complexMapConfig.complexMap (map<MapValueType>): ", complexMapConfig.complexMap);
+        // io:println("complexMapConfig.arrayMap (map<string[]>): ", complexMapConfig.arrayMap);
+        // io:println("complexMapConfig.objectMap (map<AuthProvider>): ", complexMapConfig.objectMap);
+        // io:println("  Description: Testing maps with complex nested object values\n");
         
         // 3. Advanced Configuration
         io:println("--- 3. ADVANCED CONFIGURATION ---");
@@ -281,7 +287,8 @@ service / on new http:Listener(8092) {
         io:println("advancedConfig.nested.cache.cacheType: ", advancedConfig.nested.cache.cacheType);
         io:println("advancedConfig.logging.level: ", advancedConfig.logging.level);
         io:println("advancedConfig.arrays.nestedStringArray: ", advancedConfig.arrays.nestedStringArray);
-        io:println("advancedConfig.maps.simpleStringMap: ", advancedConfig.maps.simpleStringMap);
+        // COMMENTED OUT - causing deployment errors in Choreo
+        // io:println("advancedConfig.maps.simpleStringMap: ", advancedConfig.maps.simpleStringMap);
         io:println("  Description: Comprehensive config combining all levels\n");
         
         // 4. Union Types
@@ -325,13 +332,14 @@ service / on new http:Listener(8092) {
                             "saml": null
                     }
                 },
-                "complexMapConfig": {
-                    "simpleStringMap": complexMapConfig.simpleStringMap,
-                    "simpleIntMap": complexMapConfig.simpleIntMap,
-                    "complexMap": complexMapConfig.complexMap.toJson(),
-                    "arrayMap": complexMapConfig.arrayMap.toJson(),
-                    "objectMap": complexMapConfig.objectMap.toJson()
-                },
+                // COMMENTED OUT - causing deployment errors in Choreo
+                // "complexMapConfig": {
+                //     "simpleStringMap": complexMapConfig.simpleStringMap,
+                //     "simpleIntMap": complexMapConfig.simpleIntMap,
+                //     "complexMap": complexMapConfig.complexMap.toJson(),
+                //     "arrayMap": complexMapConfig.arrayMap.toJson(),
+                //     "objectMap": complexMapConfig.objectMap.toJson()
+                // },
                 "advancedConfig": {
                     "primitives": {
                         "apiKey": advancedConfig.apiKey,
@@ -359,8 +367,9 @@ service / on new http:Listener(8092) {
                         "nestedStringArray": advancedConfig.arrays.nestedStringArray
                     },
                     "maps": {
-                        "envVars": advancedConfig.envVars,
-                        "thresholds": advancedConfig.thresholds
+                        "envVars": advancedConfig.envVars
+                        // COMMENTED OUT - causing deployment errors in Choreo
+                        // "thresholds": advancedConfig.thresholds
                     },
                     "logging": {
                         "level": advancedConfig.logging.level.toString(),
