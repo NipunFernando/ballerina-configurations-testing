@@ -296,7 +296,7 @@ This is a testing repository for WSO2 Choreo configuration validation. If you fi
 
 ## 📄 License
 
-[Specify your license here]
+[https://github.com/NipunFernando/ballerina-configurations-testing/tree/short-level-3?tab=License-1-ov-file]
 
 ## 👤 Author
 
