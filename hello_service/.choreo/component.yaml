@@ -98,33 +98,3 @@ configurations:
           # +optional default value is string if not specified
           # Allowed types - string, number, boolean, secret
           type: secret
-    
-    # Required array configurable
-    - name: requiredStringArray
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Required String Array
-          # +optional default value is true if not specified
-          required: true
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret, object, array
-          type: array
-    
-    # Optional array configurable
-    - name: optionalStringArray
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Optional String Array
-          # +optional default value is true if not specified
-          required: false
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret, object, array
-          type: array
