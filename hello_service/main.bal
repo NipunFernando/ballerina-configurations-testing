@@ -46,46 +46,20 @@ type Level3Config record {
 // CONFIGURABLE VARIABLES
 // ============================================
 
-// LEVEL 1 CONFIGS
-configurable SimpleConfig simpleRequired = ?;  // REQUIRED - no default
+// Required configurable strings (3 total, 1 is secret)
+configurable string requiredString1 = ?;                    // REQUIRED
+configurable string requiredSecretString = ?;                // REQUIRED SECRET (marked as secret in platform)
+configurable string requiredString2 = ?;                    // REQUIRED
 
-configurable SimpleConfig simpleOptional = {   // OPTIONAL - has default
-    name: "default_name",
-    count: 10,
-    enabled: true
-};
+// Optional configurables (2 total, 1 is secret)
+configurable string optionalString = "default_value";       // OPTIONAL
+configurable string optionalSecretString = "default_secret"; // OPTIONAL SECRET (marked as secret in platform)
 
-// LEVEL 2 CONFIGS
-configurable Level2Config level2Required = ?;  // REQUIRED - no default
+// Required array configurable
+configurable string[] requiredStringArray = ?;              // REQUIRED ARRAY
 
-configurable Level2Config level2Optional = {   // OPTIONAL - has default
-    appName: "DefaultApp",
-    database: {
-        host: "localhost",
-        port: 5432,
-        sslEnabled: false
-    }
-};
-
-// LEVEL 3 CONFIGS
-configurable Level3Config level3Required = ?;  // REQUIRED - no default
-
-configurable Level3Config level3Optional = {   // OPTIONAL - has default
-    serviceName: "DefaultService",
-    security: {
-        auth: {
-            provider: "oauth",
-            clientId: "default-client",
-            enabled: false
-        },
-        requireHttps: true
-    }
-};
-
-// Simple primitives
-configurable string primitiveRequired = ?;     // REQUIRED
-configurable string primitiveOptional = "default_value";  // OPTIONAL
-configurable int numberOptional = 42;          // OPTIONAL
+// Optional array configurable
+configurable string[] optionalStringArray = ["item1", "item2"]; // OPTIONAL ARRAY
 
 // Environment variable
 configurable string name = os:getEnv("NAME");
@@ -97,61 +71,59 @@ service / on new http:Listener(8090) {
     
     resource function get test() returns json {
         io:println("\n========================================");
-        io:println("MINIMAL CONFIGURATION TEST");
+        io:println("CONFIG WITH SECRETS TEST");
         io:println("========================================\n");
         
-        io:println("--- LEVEL 1 CONFIGS ---");
-        io:println("simpleRequired: ", simpleRequired);
-        io:println("simpleOptional: ", simpleOptional);
+        io:println("--- REQUIRED STRINGS ---");
+        io:println("requiredString1: ", requiredString1);
+        io:println("requiredSecretString: ", requiredSecretString);
+        io:println("requiredString2: ", requiredString2);
         io:println("");
         
-        io:println("--- LEVEL 2 CONFIGS ---");
-        io:println("level2Required: ", level2Required);
-        io:println("level2Optional: ", level2Optional);
+        io:println("--- OPTIONAL STRINGS ---");
+        io:println("optionalString: ", optionalString);
+        io:println("optionalSecretString: ", optionalSecretString);
         io:println("");
         
-        io:println("--- LEVEL 3 CONFIGS ---");
-        io:println("level3Required: ", level3Required);
-        io:println("level3Optional: ", level3Optional);
-        io:println("");
-        
-        io:println("--- PRIMITIVES ---");
-        io:println("primitiveRequired: ", primitiveRequired);
-        io:println("primitiveOptional: ", primitiveOptional);
-        io:println("numberOptional: ", numberOptional);
+        io:println("--- ARRAYS ---");
+        io:println("requiredStringArray: ", requiredStringArray);
+        io:println("optionalStringArray: ", optionalStringArray);
         io:println("");
         
         io:println("========================================\n");
         
-        string message = "Hello, " + name + "! Minimal test completed.";
+        string message = "Hello, " + name + "! Config with secrets test completed.";
         
         json response = {
             "greeting": message,
-            "test": "minimal",
+            "test": "make-config-a-secret",
             "configurations": {
-                "level1": {
-                    "simpleRequired": simpleRequired.toJson(),
-                    "simpleOptional": simpleOptional.toJson()
+                "requiredStrings": {
+                    "requiredString1": requiredString1,
+                    "requiredSecretString": requiredSecretString,
+                    "requiredString2": requiredString2
                 },
-                "level2": {
-                    "level2Required": level2Required.toJson(),
-                    "level2Optional": level2Optional.toJson()
+                "optionalStrings": {
+                    "optionalString": optionalString,
+                    "optionalSecretString": optionalSecretString
                 },
-                "level3": {
-                    "level3Required": level3Required.toJson(),
-                    "level3Optional": level3Optional.toJson()
-                },
-                "primitives": {
-                    "primitiveRequired": primitiveRequired,
-                    "primitiveOptional": primitiveOptional,
-                    "numberOptional": numberOptional
+                "arrays": {
+                    "requiredStringArray": requiredStringArray,
+                    "optionalStringArray": optionalStringArray
                 }
             },
             "summary": {
-                "totalConfigs": 9,
+                "totalConfigs": 7,
                 "requiredConfigs": 4,
-                "optionalConfigs": 5,
-                "note": "Optional configs have hardcoded defaults in code"
+                "optionalConfigs": 3,
+                "secrets": {
+                    "required": 1,
+                    "optional": 1
+                },
+                "arrays": {
+                    "required": 1,
+                    "optional": 1
+                }
             }
         };
         
