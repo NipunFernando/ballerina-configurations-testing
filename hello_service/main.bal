@@ -3,46 +3,6 @@ import ballerina/io;
 import ballerina/os;
 
 // ============================================
-// MINIMAL TEST - Level 1, 2, 3 Configurations
-// ============================================
-
-// Level 1: Simple object
-type SimpleConfig record {
-    string name;
-    int count;
-    boolean enabled;
-};
-
-// Level 2: One level of nesting
-type DatabaseConfig record {
-    string host;
-    int port;
-    boolean sslEnabled;
-};
-
-type Level2Config record {
-    string appName;
-    DatabaseConfig database;
-};
-
-// Level 3: Two levels of nesting (3 levels total)
-type AuthConfig record {
-    string provider;
-    string clientId;
-    boolean enabled;
-};
-
-type SecurityConfig record {
-    AuthConfig auth;
-    boolean requireHttps;
-};
-
-type Level3Config record {
-    string serviceName;
-    SecurityConfig security;
-};
-
-// ============================================
 // CONFIGURABLE VARIABLES
 // ============================================
 
