@@ -98,3 +98,50 @@ configurations:
           # +optional default value is string if not specified
           # Allowed types - string, number, boolean, secret
           type: secret
+
+  # +optional List of files to be injected into the component from config form
+  file:
+    # +required name of the file
+    - name: Config.toml
+      # +required path to mount the file at
+      mountPath: /home/ballerina
+      # +required file type
+      # Supported types - yaml, json and toml
+      type: toml
+      # +required define keys of the file
+      values:
+        # Required array configurable
+        - name: requiredStringArray
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Required String Array
+              # +optional default value is true if not specified
+              required: true
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: array
+              # +optional For array types, specify the item type
+              items:
+                type: string
+        
+        # Optional array configurable
+        - name: optionalStringArray
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Optional String Array
+              # +optional default value is true if not specified
+              required: false
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: array
+              # +optional For array types, specify the item type
+              items:
+                type: string
