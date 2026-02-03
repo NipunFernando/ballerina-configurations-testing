@@ -1,0 +1,18 @@
+schemaVersion: 1.2
+
+configurations:
+  file:
+    - name: Config.toml
+      values:
+        requiredString1: "value1"
+        requiredSecretString: "secret_value_12345"
+        requiredString2: "value2"
+        requiredStringArray:
+          - "array_item_1"
+          - "array_item_2"
+          - "array_item_3"
+        optionalString: "optional_value"
+        optionalSecretString: "optional_secret_value"
+        optionalStringArray:
+          - "optional_item_1"
+          - "optional_item_2"
