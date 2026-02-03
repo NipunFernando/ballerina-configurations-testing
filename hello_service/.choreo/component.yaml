@@ -29,7 +29,7 @@ configurations:
     # +required name of the file
     - name: Config.toml
       # +required path to mount the file at
-      mountPath: /home/ballerina/hello_service
+      mountPath: /home/ballerina
       # +required file type
       # Supported types - yaml, json and toml
       type: toml
