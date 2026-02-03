@@ -24,81 +24,6 @@ endpoints:
 
 # +optional Defines runtime configurations
 configurations:
-  # +optional List of environment variables to be injected into the component.
-  env:
-    # Required configurable strings (3 total, 1 is secret)
-    # +required Name of the environment variable
-    - name: requiredString1
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Required String 1
-          # +optional default value is true if not specified
-          required: true
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret
-          type: string
-    
-    - name: requiredSecretString
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Required Secret String
-          # +optional default value is true if not specified
-          required: true
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret
-          type: secret
-    
-    - name: requiredString2
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Required String 2
-          # +optional default value is true if not specified
-          required: true
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret
-          type: string
-    
-    # Optional configurables (2 total, 1 is secret)
-    - name: optionalString
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Optional String
-          # +optional default value is true if not specified
-          required: false
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret
-          type: string
-    
-    - name: optionalSecretString
-      # +required value source
-      # Allowed value sources: connectionRef, configForm
-      valueFrom:
-        # +required config form value source
-        configForm:
-          # +optional display name inside the config form, name will be shown in config form if not specified
-          displayName: Optional Secret String
-          # +optional default value is true if not specified
-          required: false
-          # +optional default value is string if not specified
-          # Allowed types - string, number, boolean, secret
-          type: secret
-
   # +optional List of files to be injected into the component from config form
   file:
     # +required name of the file
@@ -110,6 +35,78 @@ configurations:
       type: toml
       # +required define keys of the file
       values:
+        # Required configurable strings (3 total, 1 is secret)
+        - name: requiredString1
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Required String 1
+              # +optional default value is true if not specified
+              required: true
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: string
+        
+        - name: requiredSecretString
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Required Secret String
+              # +optional default value is true if not specified
+              required: true
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: secret
+        
+        - name: requiredString2
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Required String 2
+              # +optional default value is true if not specified
+              required: true
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: string
+        
+        # Optional configurables (2 total, 1 is secret)
+        - name: optionalString
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Optional String
+              # +optional default value is true if not specified
+              required: false
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: string
+        
+        - name: optionalSecretString
+          # +required value source
+          # Allowed value sources: connectionRef, configForm
+          valueFrom:
+            # +required config form value source
+            configForm:
+              # +optional display name inside the config form, name will be shown in config form if not specified
+              displayName: Optional Secret String
+              # +optional default value is true if not specified
+              required: false
+              # +optional default value is string if not specified
+              # Allowed types - string, number, boolean, secret, object, array
+              type: secret
+        
         # Required array configurable
         - name: requiredStringArray
           # +required value source
