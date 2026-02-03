@@ -1,6 +1,7 @@
 import ballerina/http;
 import ballerina/io;
 import ballerina/os;
+import ballerina/file;
 
 // ============================================
 // CONFIGURABLE VARIABLES
@@ -24,6 +25,16 @@ configurable string[] optionalStringArray = ["item1", "item2"]; // OPTIONAL ARRA
 // Environment variable
 configurable string name = os:getEnv("NAME");
 
+// Helper function to check if file exists
+function checkFileExists(string path) returns string {
+    var result = file:exists(path);
+    if result is boolean {
+        return result.toString();
+    } else {
+        return "error: " + result.toString();
+    }
+}
+
 // ============================================
 // SERVICE
 // ============================================
@@ -33,6 +44,15 @@ service / on new http:Listener(8090) {
         io:println("\n========================================");
         io:println("CONFIG WITH SECRETS TEST");
         io:println("========================================\n");
+        
+        // Debug: Print working directory and file locations
+        io:println("--- DEBUG INFO ---");
+        io:println("Current working directory: ", os:getEnv("PWD") ?: "unknown");
+        io:println("Checking for Config.toml locations:");
+        io:println("  /home/ballerina/Config.toml exists: ", checkFileExists("/home/ballerina/Config.toml"));
+        io:println("  /home/ballerina/hello_service/Config.toml exists: ", checkFileExists("/home/ballerina/hello_service/Config.toml"));
+        io:println("  ./Config.toml exists: ", checkFileExists("./Config.toml"));
+        io:println("");
         
         io:println("--- REQUIRED STRINGS ---");
         io:println("requiredString1: ", requiredString1);
