@@ -1,0 +1,136 @@
+# +required The configuration file schema version
+schemaVersion: 1.2
+
+# +optional Incoming connection details for the component
+endpoints:
+  # +required Unique name for the endpoint.
+  # This name will be used when generating the managed API
+  - name: config-secrets-test
+    # +optional Display name for the endpoint.
+    displayName: Config with Secrets Test
+    # +required Service section has the user service endpoint details
+    service:
+      # +optional Context (base path) of the API that gets exposed via the endpoint.
+      basePath: /
+      # +required Numeric port value that gets exposed via the endpoint
+      port: 8090
+    # +required Type of traffic that the endpoint is accepting.
+    # Allowed values: REST, GraphQL, WS, GRPC, TCP, UDP.
+    type: REST
+    # +optional Network level visibilities of the endpoint.
+    # Accepted values: Project|Organization|Public(Default).
+    networkVisibilities: 
+      - Public
+
+# +optional Defines runtime configurations
+configurations:
+  # +optional List of environment variables to be injected into the component.
+  env:
+    # Required configurable strings (3 total, 1 is secret)
+    # +required Name of the environment variable
+    - name: requiredString1
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Required String 1
+          # +optional default value is true if not specified
+          required: true
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret
+          type: string
+    
+    - name: requiredSecretString
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Required Secret String
+          # +optional default value is true if not specified
+          required: true
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret
+          type: secret
+    
+    - name: requiredString2
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Required String 2
+          # +optional default value is true if not specified
+          required: true
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret
+          type: string
+    
+    # Optional configurables (2 total, 1 is secret)
+    - name: optionalString
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Optional String
+          # +optional default value is true if not specified
+          required: false
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret
+          type: string
+    
+    - name: optionalSecretString
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Optional Secret String
+          # +optional default value is true if not specified
+          required: false
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret
+          type: secret
+    
+    # Required array configurable
+    - name: requiredStringArray
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Required String Array
+          # +optional default value is true if not specified
+          required: true
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret, object, array
+          type: array
+          # +optional For array types, specify the item type
+          items:
+            type: string
+    
+    # Optional array configurable
+    - name: optionalStringArray
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Optional String Array
+          # +optional default value is true if not specified
+          required: false
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret, object, array
+          type: array
+          # +optional For array types, specify the item type
+          items:
+            type: string
