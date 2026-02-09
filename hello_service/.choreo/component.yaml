@@ -24,6 +24,23 @@ endpoints:
 
 # +optional Defines runtime configurations
 configurations:
+  # +optional List of environment variables to be injected into the component.
+  env:
+    # Environment variable to tell Ballerina where to find Config.toml
+    - name: BAL_CONFIG_FILES
+      # +required value source
+      # Allowed value sources: connectionRef, configForm
+      valueFrom:
+        # +required config form value source
+        configForm:
+          # +optional display name inside the config form, name will be shown in config form if not specified
+          displayName: Ballerina Config Files Path
+          # +optional default value is true if not specified
+          required: false
+          # +optional default value is string if not specified
+          # Allowed types - string, number, boolean, secret
+          type: string
+
   # +optional List of files to be injected into the component from config form
   file:
     # +required name of the file
