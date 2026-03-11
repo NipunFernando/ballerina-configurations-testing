@@ -1,0 +1,7 @@
+apiVersion: core.choreo.dev/v1beta1
+kind: Component
+metadata:
+  name: go-message-service
+  description: A simple Go service that exposes a configurable message via a GET endpoint
+spec:
+  type: Service

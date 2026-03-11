@@ -1,0 +1,29 @@
+openapi: "3.0.0"
+info:
+  title: Go Message Service
+  version: "1.0.0"
+  description: Returns a configurable message from an environment variable
+paths:
+  /message:
+    get:
+      summary: Get configured message
+      description: Returns the value of the MY_MESSAGE environment variable
+      operationId: getMessage
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello from Choreo!"
+  /healthz:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Service is healthy
