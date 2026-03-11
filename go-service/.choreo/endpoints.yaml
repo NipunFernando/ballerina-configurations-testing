@@ -2,10 +2,8 @@ version: 0.1
 endpoints:
   - name: message-api
     displayName: Message API
-    service:
-      basePath: /
-      port: 8080
+    port: 8080
     type: REST
+    context: /
     networkVisibilities:
       - Public
-    schemaFilePath: openapi.yaml
