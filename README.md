@@ -13,6 +13,7 @@ The primary goal is to ensure that WSO2 Choreo can properly handle, generate sch
 - **Level 1**: Simple primitives and basic objects
 - **Level 2**: Nested objects with one level of nesting
 - **Level 3**: Deeply nested objects with multiple levels (3+)
+- **minimal-test**: Minimal config form
 
 ## 🌿 Branch Structure
 
